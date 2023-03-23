@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.UserMapper">
+    <select id="auth" parameterType="userDTO" resultType="userDTO">
+        SELECT * FROM `shop`.`user`
+        WHERE username = #{username}
+        AND
+        password = #{password}
+    </select>
+    <select id="validate" parameterType="string" resultType="userDTO">
+        SELECT * FROM shop.`user`
+        WHERE username = #{username}
+    </select>
+    <select id="selectOne" parameterType="int" resultType="userDTO">
+        SELECT * FROM shop.`user`
+        WHERE id = #{id}
+    </select>
+    <insert id="register" parameterType="userDTO">
+        INSERT INTO shop.user(username, password, nickname, phone_number)
+        VALUES(#{username}, #{password}, #{nickname}, #{phoneNumber})
+    </insert>
+    <select id="selectAll" resultType="userDTO">
+        SELECT * FROM user
+    </select>
+    <update id="update" parameterType="userDTO">
+        UPDATE shop.`user` SET
+        password = #{password},
+        nickname = #{nickname},
+        phone_number = #{phoneNumber}
+        WHERE
+        id = #{id}
+    </update>
+    <update id="addressUpdate" parameterType="userDTO">
+        UPDATE shop.`user` SET
+        address_id = #{addressId}
+        WHERE
+        id = #{id}
+    </update>
+    <delete id="delete" parameterType="int">
+        DELETE FROM shop.user
+        WHERE id= #{id}
+    </delete>
+</mapper>

@@ -1,0 +1,195 @@
+let switchCtn = document.querySelector("#switch-cnt");
+let switchC1 = document.querySelector("#switch-c1");
+let switchC2 = document.querySelector("#switch-c2");
+let switchCircle = document.querySelectorAll(".switch__circle");
+let switchBtn = document.querySelectorAll(".switch-btn");
+let aContainer = document.querySelector("#a-container");
+let bContainer = document.querySelector("#b-container");
+let allButtons = document.querySelectorAll(".submit");
+
+let getButtons = (e) => e.preventDefault()
+
+let changeForm = (e) => {
+
+    switchCtn.classList.add("is-gx");
+    setTimeout(function () {
+        switchCtn.classList.remove("is-gx");
+    }, 1500)
+
+    switchCtn.classList.toggle("is-txr");
+    switchCircle[0].classList.toggle("is-txr");
+    switchCircle[1].classList.toggle("is-txr");
+
+    switchC1.classList.toggle("is-hidden");
+    switchC2.classList.toggle("is-hidden");
+    aContainer.classList.toggle("is-txl");
+    bContainer.classList.toggle("is-txl");
+    bContainer.classList.toggle("is-z200");
+}
+
+let mainF = (e) => {
+    for (var i = 0; i < allButtons.length; i++)
+        allButtons[i].addEventListener("click", getButtons);
+    for (var i = 0; i < switchBtn.length; i++)
+        switchBtn[i].addEventListener("click", changeForm)
+}
+
+window.addEventListener("load", mainF);
+
+
+$(document).ready(function () {
+    let state = $('#state').val();
+    if (state == "loginFail") {
+        console.log("loginFail");
+        Swal.fire({
+            // position: 'top-end',
+            icon: 'error',
+            title: '!!! 로그인 실패 !!!',
+            text: '아이디, 비밀번호가 틀렸습니다.',
+            showConfirmButton: false,
+            timer: 1500
+        })
+    }
+
+    if (state == "registerSuccess") {
+        console.log("registerSuccess");
+        Swal.fire({
+            // position: 'top-end',
+            icon: 'success',
+            title: '회원등록 성공!!!',
+            showConfirmButton: false,
+            timer: 1500
+        })
+    }
+
+    if (state == "registerFail") {
+        console.log("registerFail");
+        Swal.fire({
+            // position: 'top-end',
+            icon: 'error',
+            title: '!!! 회원등록 실패 !!!',
+            text: '빼먹은게 없는지 확인해주세요.',
+            showConfirmButton: false,
+            timer: 1500
+        })
+    }
+
+});
+
+$(document).ready(function () {
+    let state = $('#state').val();
+    console.log(state);
+    if (state == "deleteFail") {
+        Swal.fire({
+            // position: 'top-end',
+            icon: 'error',
+            title: '!!! delete fail !!!',
+            text: '기본배송지는 삭제할 수 없습니다.',
+            showConfirmButton: false,
+            timer: 1500
+        })
+    }
+    if (state == "updateFail") {
+        Swal.fire({
+            // position: 'top-end',
+            icon: 'error',
+            title: '!!! update fail !!!',
+            text: '주소지를 입력해주세요',
+            showConfirmButton: false,
+            timer: 1500
+        })
+    }
+
+
+
+});
+
+function baseButton() {
+    Swal.fire({
+        icon: 'success',
+        title: 'Your work has been saved',
+        showConfirmButton: false,
+        timer: 1500
+    }).then(() => {
+        location.href = "/address/baseChange/" + $('#base-button').val();
+    })
+
+}
+
+function deleteButton() {
+    let id = new URLSearchParams(window.location.search).get("id");
+    let deleteVal = $("#delete-input").val()
+    let deleteName = $("#delete-name").val()
+    if (deleteVal == deleteName) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire(
+                    'Deleted!',
+                    'Your file has been deleted.',
+                    'success'
+                ).then(() => {
+                    location.href = "/address/delete/" + $('#delete-button').val();
+                })
+            }
+        })
+    } else {
+        Swal.fire({
+            // position: 'top-end',
+            icon: 'error',
+            title: '!!! Delete Fail !!!',
+            text: '잘못 입력하셨습니다.',
+            showConfirmButton: false,
+            timer: 1500
+        })
+    }
+}
+
+function execDaumPostcode() {
+    new daum.Postcode({
+        oncomplete: function (data) {
+            document.getElementById('zip-code').value = data.zonecode;
+            document.getElementById('address-1').value = data.address;
+            document.getElementById('address-1-1').value = data.jibunAddress;
+            document.getElementById('address-2').focus();
+        }
+    }).open();
+}
+
+function execDaumPostcode2() {
+    new daum.Postcode({
+        oncomplete: function (data) {
+            document.getElementById('zip-code2').value = data.zonecode;
+            document.getElementById('address2-1').value = data.address;
+            document.getElementById('address2-1-1').value = data.jibunAddress;
+            document.getElementById('address2-2').focus();
+        }
+    }).open();
+}
+
+function execDaumPostcodeReset() {
+    document.getElementById('zip-code').value = null;
+    document.getElementById('address-1').value = null;
+    document.getElementById('address-1-1').value = null;
+    document.getElementById('address-2').value = null;
+}
+
+
+function switchUpdate(id, street, detail) {
+    $('#baseAddress').text(street + ", " + detail)
+    $('#update-form').attr("action", "/address/update/" + id);
+    $('#delete-button').attr("value", id);
+    $('#base-button').attr("value", id);
+}
+
+function switchInsert() {
+    $("#insert-form").append(insertForm);
+    $("#update-form").children().remove();
+}

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.AddressMapper">
+    <select id="selectOne" parameterType="addressDTO" resultType="addressDTO">
+        SELECT * FROM `shop`.`address`
+        WHERE id = #{addressId}
+    </select>
+
+    <insert id="insert" parameterType="addressDTO">
+        INSERT INTO `shop`.`address` (user_id, zip_code, street_address, number_address, detailed_address)
+        VALUES( #{userId}, #{zipCode}, #{streetAddress}, #{numberAddress}, #{detailedAddress})
+    </insert>
+    <select id="selectAll" parameterType="int" resultType="addressDTO">
+        SELECT * FROM `shop`.`address`
+        WHERE user_id = #{userId}
+    </select>
+    <update id="update" parameterType="addressDTO">
+        UPDATE shop.`address` SET
+        zip_Code = #{zipCode},
+        street_address = #{streetAddress},
+        number_address = #{numberAddress},
+        detailed_address = #{detailedAddress}
+        WHERE
+        id = #{id}
+    </update>
+    <delete id="delete" parameterType="int">
+        DELETE FROM shop.address
+        WHERE id= #{id}
+    </delete>
+</mapper>
