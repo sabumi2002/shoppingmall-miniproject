@@ -1,4 +1,6 @@
-<%@ page import="com.bit.spring.model.UserDTO" %><%--<%@ page import="model.UserDTO" %>&lt;%&ndash;--%>
+<%@ page import="com.bit.spring.model.UserDTO" %>
+<%@ page import="java.util.List" %>
+<%@ page import="com.bit.spring.model.CategoryDTO" %><%--<%@ page import="model.UserDTO" %>&lt;%&ndash;--%>
 <%--  Created by IntelliJ IDEA.--%>
 <%--  User: Sabeom--%>
 <%--  Date: 2023-02-21--%>
@@ -11,6 +13,7 @@
 <head>
     <%
         pageContext.setAttribute("logIn", (UserDTO) session.getAttribute("logIn"));
+        pageContext.setAttribute("categoryList", (List<CategoryDTO> ) session.getAttribute("categoryList") );
     %>
     <link href="/resources/css/main/nav.css" rel="stylesheet">
     <link href="/resources/css/bootstrap.min.css" rel="stylesheet">
@@ -24,9 +27,9 @@
 <header class="navbar-light bg-light">
     <div class="container">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container-fluid">
-                <div>
-                    <button style="display: inline-block" class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            <div style="flex-wrap: nowrap;" class="container-fluid">
+                <div style="display: flex; flex-wrap: nowrap;" class="align-items-center">
+                    <button style="display: inline-block" class="navbar-toggler h-50" type="button" data-bs-toggle="collapse"
                             data-bs-target="#navbarHeader"
                             aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
@@ -38,9 +41,9 @@
                 </div>
                 <%--            <a class="navbar-brand" href="#">Navbar</a>--%>
 
-                <form class="search d-flex justify-content-end" action="" method="get">
-                    <input class="form-control mb-0" type="search" placeholder="Search" name="keyword">
-                    <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+                <form class="search d-flex justify-content-end align-items-center" action="" method="get">
+                    <input class="form-control h-50" type="search" placeholder="Search" name="keyword">
+                    <button class="h-50" type="submit">Search</button>
                 </form>
 
                 <div class="d-flex">
@@ -86,14 +89,14 @@
                 <div class="row">
                     <ul class="headerMenu">
                         <li class="current">
-                            <a href="">영화 찾기</a>
+                            <a href="">전체</a>
                         </li>
-                        <li class="current">
-                            <a href="">극장 찾기</a>
-                        </li>
-                        <li class="current">
-                            <a href="">상영 정보</a>
-                        </li>
+                        <c:forEach items="${categoryList}" var="item">
+                            <li class="current">
+                                <a href="">${item.category}</a>
+                            </li>
+                        </c:forEach>
+
                     </ul>
                 </div>
             </div>

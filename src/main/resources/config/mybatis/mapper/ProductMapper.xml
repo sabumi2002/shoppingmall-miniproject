@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.ProductMapper">
+    <select id="selectOne" parameterType="productDTO" resultType="productDTO">
+        SELECT * FROM `shop`.`product`
+        WHERE id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="productDTO">
+        INSERT INTO `shop`.`product` (title, brand, price, delivery_id, seller_id, content, img, remaining)
+        VALUES( #{title}, #{brand}, #{price}, #{deliveryId}, #{sellerId}, #{content}, #{img}, #{remaining})
+    </insert>
+    <select id="selectAll" resultType="productDTO">
+        SELECT * FROM `shop`.`product`
+    </select>
+    <select id="selectAllByCategory" parameterType="int" resultType="productDTO">
+        SELECT * FROM `shop`.`product`
+        WHERE id = #{categoryId}
+    </select>
+    <update id="update" parameterType="addressDTO">
+        UPDATE shop.`product` SET
+        title = #{title},
+        brand = #{brand},
+        price = #{price},
+        delivery_id = #{deliveryId},
+        seller_id = #{sellerId},
+        content = #{content},
+        img = #{img},
+        remaining = #{remaining}
+        WHERE
+        id = #{id}
+    </update>
+    <delete id="delete" parameterType="int">
+        DELETE FROM shop.product
+        WHERE id= #{id}
+    </delete>
+</mapper>

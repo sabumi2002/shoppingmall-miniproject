@@ -1,3 +1,7 @@
+
+.navbar {
+    height: 60px;
+}
 .navbar img{
     margin: 0;
     padding: 0;
@@ -12,15 +16,20 @@
 .search input{
     margin: 0;
     width: 35px;
+    height: 60px ;
     transition: width .4s;
 }
+
 .search {
+    vertical-align: middle;
+    height: 60px;
     width: 50%;
-    margin: 0;
+    margin: 0 auto;
     padding: 0;
 }
 .search input:focus {
     width: 100%;
+    height: 60px;
     border-color: #669900;
 }
 .navbar-login {
@@ -42,4 +51,54 @@
     border: 1px solid #DBDFE5;
     height: 40px;
     border-radius: 32px;
+}
+
+.headerMenu{
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0px 50px 0px 50px;
+}
+.headerMenu li {
+    list-style: none;
+    margin-top: 15px;
+}
+
+.headerMenu li :after{
+    display: inline-block;
+    content: '';
+    width: 1px;
+    height: 12px;
+    background: #b9b9b9;
+    margin: 0 10px 0px 10px;
+    /*position: absolute;*/
+    /*right: 13px;*/
+    /*top: 50%;*/
+    /*margin-top: -6px;*/
+}
+.headerMenu a{
+    /*color: #b9b9b9;*/
+    text-decoration: none;
+}
+.headerMenu a:hover{
+    color: #141619;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.container-fluid{
+    height: 60px;
+}
+
+.search button {
+    border: 1px solid #DBDFE5;
+    width: 50px;
+    height: 40px;
+    border-radius: 32px;
+    font-size: 14px;
+    line-height: 31px;
+    outline: none;
+    padding: 0;
+    margin: 0;
+    vertical-align: middle;
+    cursor: pointer;
 }
