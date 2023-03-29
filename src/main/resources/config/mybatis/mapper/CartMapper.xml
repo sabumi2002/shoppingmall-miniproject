@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.CartMapper">
+    <select id="selectOne" parameterType="oderProductDTO" resultType="oderProductDTO">
+        SELECT * FROM `shop`.`cart`
+        WHERE id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="oderProductDTO">
+        INSERT INTO `shop`.`cart` (product_id, buyer_id, count, final_price, delivery_date)
+        VALUES( #{productId}, #{buyerId}, #{count}, #{finalPrice}, #{deliveryDate})
+    </insert>
+    <select id="selectAll" resultType="oderProductDTO">
+        SELECT * FROM `shop`.`cart`
+    </select>
+    <select id="selectAllByLogin" parameterType="int" resultType="oderProductDTO">
+        SELECT * FROM `shop`.`cart`
+        WHERE buyer_id = #{buyerId}
+    </select>
+    <update id="update" parameterType="oderProductDTO">
+        UPDATE shop.`cart` SET
+        state = #{state}
+        WHERE
+        id = #{id}
+    </update>
+    <delete id="delete" parameterType="int">
+        DELETE FROM shop.cart
+        WHERE id= #{id}
+    </delete>
+    <insert id="insertMulti" parameterType="java.util.Map">
+        INSERT INTO `shop`.`cart` (product_id, buyer_id, count, final_price, delivery_date)
+        VALUES
+        <foreach collection="list" item="item" separator=" , ">
+            ( #{productId}, #{buyerId}, #{count}, #{finalPrice}, #{deliveryDate})
+        </foreach>
+    </insert>
+</mapper>

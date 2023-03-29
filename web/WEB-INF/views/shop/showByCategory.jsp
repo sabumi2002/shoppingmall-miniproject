@@ -33,9 +33,7 @@
 <%--        <li><a href="#"><b>Login</b></a></li>--%>
 <%--    </ul>--%>
 <%--</div>--%>
-<%@include file="../main/header_nav.jsp" %>
-
-
+<%@include file="../main/header_nav.jsp"%>
 <div class="hero-header"></div>
 
 <div class="products">
@@ -44,12 +42,12 @@
     <div class="product-list frame">
         <c:forEach items="${productList}" var="item">
             <a href="/shop/showDetail?id=${item.id}" class="product btn-5">
-                <img src="${item.img}">
+                <img src="${item.img}" width="225">
                 <div class="product-name">
-                        ${item.title}
+                    ${item.title}
                 </div>
                 <div class="product-price">
-                        ${item.price}
+                    ${item.price}
                 </div>
             </a>
         </c:forEach>

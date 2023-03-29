@@ -1,0 +1,48 @@
+.inner {
+    width: 80%;
+    margin: auto;
+
+}
+.cart-bundle-title {
+    height: 50px;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    background: #fafafa;
+}
+
+.cart-checkbox {
+    width: 30px;
+    height: 10px;
+    margin: 0 auto;
+    align-items: center;
+    align-content: center;
+}
+
+.cartTable td {
+    text-align: center;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+}
+.cartTable .info {
+    text-align: left;
+}
+
+
+.head {
+    text-align: center;
+
+}
+
+
+.basket-box .head {
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    background: #fafafa;
+}
+
+
+.basket {
+    display: flex;
+}
+

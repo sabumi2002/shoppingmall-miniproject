@@ -10,21 +10,22 @@
     </select>
 
     <insert id="insert" parameterType="productDTO">
-        INSERT INTO `shop`.`product` (title, brand, price, delivery_id, seller_id, content, img, remaining)
-        VALUES( #{title}, #{brand}, #{price}, #{deliveryId}, #{sellerId}, #{content}, #{img}, #{remaining})
+        INSERT INTO `shop`.`product` (title, brand, price, category_id, delivery_id, seller_id, content, img, remaining)
+        VALUES( #{title}, #{brand}, #{price}, #{categoryId}, #{deliveryId}, #{sellerId}, #{content}, #{img}, #{remaining})
     </insert>
     <select id="selectAll" resultType="productDTO">
         SELECT * FROM `shop`.`product`
     </select>
     <select id="selectAllByCategory" parameterType="int" resultType="productDTO">
         SELECT * FROM `shop`.`product`
-        WHERE id = #{categoryId}
+        WHERE category_id = #{categoryId}
     </select>
     <update id="update" parameterType="addressDTO">
         UPDATE shop.`product` SET
         title = #{title},
         brand = #{brand},
         price = #{price},
+        category_id = #{categoryId},
         delivery_id = #{deliveryId},
         seller_id = #{sellerId},
         content = #{content},

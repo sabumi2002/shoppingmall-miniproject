@@ -7,7 +7,6 @@
     background-position: center center;
 }
 
-
 .product-list{
     width: 735px;
     margin-left: auto;
@@ -24,6 +23,7 @@
 .product{
     display: block;
     width: 225px;
+    height: 333px;
     text-align: center;
     text-decoration:none;
     color: black;
@@ -31,6 +31,11 @@
     margin-left: 10px;
     margin-right: 10px;
     margin-bottom: 30px;
+}
+.product img {
+    width: 225px;
+    height: 225px;
+    object-fit: contain;
 }
 
 .product-name{

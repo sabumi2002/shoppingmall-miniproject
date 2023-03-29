@@ -13,17 +13,19 @@
 <head>
     <%
         pageContext.setAttribute("logIn", (UserDTO) session.getAttribute("logIn"));
-        pageContext.setAttribute("categoryList", (List<CategoryDTO> ) session.getAttribute("categoryList") );
     %>
     <link href="/resources/css/main/nav.css" rel="stylesheet">
-    <link href="/resources/css/bootstrap.min.css" rel="stylesheet">
+
 
     <script defer src="/js/main/nav.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
     <%--    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"--%>
     <%--            integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"--%>
     <%--            crossorigin="anonymous"></script>--%>
 </head>
-<body>
+
+<%--onload="initNav()"--%>
+<body onload="initNav()">
 <header class="navbar-light bg-light">
     <div class="container">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -67,6 +69,7 @@
                                         <a class="dropdown-item" href="/user/logOut">로그아웃</a>
                                         <a class="dropdown-item" href="/user/updateDelete">개인정보수정</a>
                                         <a class="dropdown-item" href="/address/manager">배송지 관리</a>
+                                        <a class="dropdown-item" href="/shop/write">상품 등록</a>
 
                                             <%--                                <a class="dropdown-item" href="#">Something else here</a>--%>
                                             <%--                                <div class="dropdown-divider"></div>--%>
@@ -87,15 +90,15 @@
         <div class="collapse navbar-light bg-light" id="navbarHeader">
             <div class="container">
                 <div class="row">
-                    <ul class="headerMenu">
+                    <ul id="hederMenu" class="headerMenu">
                         <li class="current">
-                            <a href="">전체</a>
+                            <a href="/shop/showAll">전체</a>
                         </li>
-                        <c:forEach items="${categoryList}" var="item">
-                            <li class="current">
-                                <a href="">${item.category}</a>
-                            </li>
-                        </c:forEach>
+<%--                        <c:forEach items="${categoryList}" var="item">--%>
+<%--                            <li class="current">--%>
+<%--                                <a href="">${item.category}</a>--%>
+<%--                            </li>--%>
+<%--                        </c:forEach>--%>
 
                     </ul>
                 </div>
