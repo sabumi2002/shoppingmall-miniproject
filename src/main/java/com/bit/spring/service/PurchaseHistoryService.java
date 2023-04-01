@@ -1,6 +1,6 @@
 package com.bit.spring.service;
 
-import com.bit.spring.model.OderProductDTO;
+import com.bit.spring.model.OrderProductDTO;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,25 +19,25 @@ public class PurchaseHistoryService {
         this.session = session;
     }
 
-    public void insert(OderProductDTO attempt){
+    public void insert(OrderProductDTO attempt){
         session.insert(NAMESPACE + ".insert", attempt);
     }
-    public void update(OderProductDTO attempt){
+    public void update(OrderProductDTO attempt){
         session.update(NAMESPACE + ".update", attempt);
     }
     public void delete(int id){
         session.delete(NAMESPACE + ".delete", id);
     }
-    public OderProductDTO selectOne(int id){
+    public OrderProductDTO selectOne(int id){
         return session.selectOne(NAMESPACE + ".selectOne", id);
     }
-    public List<OderProductDTO> selectAll(){
+    public List<OrderProductDTO> selectAll(){
         return session.selectList(NAMESPACE + ".selectAll");
     }
-    public List<OderProductDTO> selectAllByLogin(int loginId){
+    public List<OrderProductDTO> selectAllByLogin(int loginId){
         return session.selectList(NAMESPACE + ".selectAllByLogin", loginId);
     }
-    public int insertMulti(List<OderProductDTO> list) {
+    public int insertMulti(List<OrderProductDTO> list) {
         int count = 0;
         Map<String, Object> map = new HashMap<>();
         map.put("list", list);

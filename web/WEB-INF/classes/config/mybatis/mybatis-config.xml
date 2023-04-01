@@ -14,7 +14,8 @@
         <typeAlias type="com.bit.spring.model.DeliveryDTO" alias="deliveryDTO"/>
         <typeAlias type="com.bit.spring.model.ProductDTO" alias="productDTO"/>
         <typeAlias type="com.bit.spring.model.PremiumDTO" alias="premiumDTO"/>
-        <typeAlias type="com.bit.spring.model.OderProductDTO" alias="orderProductDTO"/>
+        <typeAlias type="com.bit.spring.model.OrderProductDTO" alias="orderProductDTO"/>
+        <typeAlias type="com.bit.spring.model.LikeDTO" alias="likeDTO"/>
     </typeAliases>
     <mappers>
         <mapper resource="config/mybatis/mapper/UserMapper.xml"/>
@@ -25,5 +26,6 @@
         <mapper resource="config/mybatis/mapper/PremiumMapper.xml"/>
         <mapper resource="config/mybatis/mapper/PurchaseHistoryMapper.xml"/>
         <mapper resource="config/mybatis/mapper/CartMapper.xml"/>
+        <mapper resource="config/mybatis/mapper/LikeMapper.xml"/>
     </mappers>
 </configuration>

@@ -4,23 +4,24 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="mapper.PurchaseHistoryMapper">
-    <select id="selectOne" parameterType="oderProductDTO" resultType="oderProductDTO">
+    <select id="selectOne" parameterType="orderProductDTO" resultType="orderProductDTO">
         SELECT * FROM `shop`.`purchase_history`
         WHERE id = #{id}
     </select>
 
-    <insert id="insert" parameterType="oderProductDTO">
-        INSERT INTO `shop`.`purchase_history` (state, product_id, buyer_id, count, final_price, delivery_date)
-        VALUES( #{state}, #{productId}, #{buyerId}, #{count}, #{finalPrice}, #{deliveryDate})
+    <insert id="insert" parameterType="orderProductDTO">
+        INSERT INTO `shop`.`purchase_history` (state, product_id, buyer_id, count, final_price, delivery_date, buyer_address, product_title, img)
+        VALUES( #{state}, #{productId}, #{buyerId}, #{count}, #{finalPrice}, #{deliveryDate}, #{buyerAddress}, #{productTitle}, #{img})
     </insert>
-    <select id="selectAll" resultType="oderProductDTO">
+    <select id="selectAll" resultType="orderProductDTO">
         SELECT * FROM `shop`.`purchase_history`
     </select>
-    <select id="selectAllByLogin" parameterType="int" resultType="oderProductDTO">
+    <select id="selectAllByLogin" parameterType="int" resultType="orderProductDTO">
         SELECT * FROM `shop`.`purchase_history`
         WHERE buyer_id = #{buyerId}
+        ORDER BY id DESC
     </select>
-    <update id="update" parameterType="oderProductDTO">
+    <update id="update" parameterType="orderProductDTO">
         UPDATE shop.`purchase_history` SET
         state = #{state}
         WHERE
@@ -31,10 +32,10 @@
         WHERE id= #{id}
     </delete>
     <insert id="insertMulti" parameterType="java.util.Map">
-        INSERT INTO shop.purchase_history (state, product_id, buyer_id, count, final_price, delivery_date)
+        INSERT INTO shop.purchase_history (state, product_id, buyer_id, count, final_price, delivery_date, buyer_address, product_title, img)
         VALUES
         <foreach collection="list" item="item" separator=" , ">
-            ( #{state}, #{productId}, #{buyerId}, #{count}, #{finalPrice}, #{deliveryDate})
+            ( #{state}, #{productId}, #{buyerId}, #{count}, #{finalPrice}, #{deliveryDate}, #{buyerAddress}, #{productTitle}, #{img})
         </foreach>
     </insert>
 </mapper>

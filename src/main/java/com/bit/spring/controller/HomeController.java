@@ -30,8 +30,8 @@ public class HomeController {
     @RequestMapping("/")
     public String showIndex(HttpSession session, Model model){
 
-//        return "index";
-        return "redirect:/mypage/showBasket";
+        return "index";
+//        return "redirect:/mypage/showBasket";
     }
 
     @GetMapping("/nav")

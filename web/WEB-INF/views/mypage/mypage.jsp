@@ -26,13 +26,70 @@
 <%@include file="../main/header_nav.jsp" %>
 <body>
 <div class="inner">
-    <div class="myInfo"></div>
-    <div>
-        <div class="">
+    <div class="page-tit four">
+        <h1><span>Beom Mall</span> My <em>Info</em> Page</h1>
+    </div>
+    <div class="form-box">
+        <div class="delivery-box">
+            <h4><span>MY Page</span></h4>
+            <hr>
+            <div class="info">
+                <a href="#"><span>주문목록</span></a><br>
+                <a href="#"><span>찜리스트</span></a><br>
+                <a href="#"><span>장바구니</span></a><br>
+                <a href="#"><span>내가등록한상품</span></a>
+            </div>
+            <hr>
+            <div class="info">
+                <a href="#"><span>개인정보확인/수정</span></a><br>
+                <a href="#"><span>배송지 관리</span></a>
+            </div>
+
 
         </div>
-        <div>
+        <div class="payment-box">
+            <div class="itemList">
+                <c:set var="date" value=""/>
+                <c:forEach items="${entryDateList}" var="entryDate" varStatus="status">
 
+                    <c:if test="${date ne entryDate}">
+                        <div class="itemDateList">
+                            <div class="date">
+                                <span>${entryDateList[status.index]}</span>
+
+                                <c:forEach items="${historyList}" var="item" varStatus="status2">
+                                    <c:if test="${entryDateList[status2.index] eq entryDate}">
+                                        <div class="item">
+                                            <span>${item.state}</span><span> ${deliDateList[status2.index]}</span>
+                                            <div class="info">
+                                                <div class="img-box">
+                                                    <img src="${item.img}">
+                                                </div>
+                                                <div class="data-box">
+                                                    <p class="tit">${item.productTitle}</p>
+                                                    <div class="info align-items-center">
+                                                        <span>${item.finalPrice}</span>
+                                                        <span style="width: 50px; text-align: center">${item.count} 개</span>
+                                                        <div class='cartButton-box'>
+                                                            <button class="cartButton custom-btn btn-4" value="${item.productId}" onclick="">장바구니 담기</button>
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </c:if>
+
+                                </c:forEach>
+                                <c:set var="date" value="${entryDate}"/>
+                            </div>
+                        </div>
+                    </c:if>
+                </c:forEach>
+
+
+            </div>
         </div>
     </div>
 </div>

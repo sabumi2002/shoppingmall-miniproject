@@ -1,3 +1,133 @@
+hr {
+    background-color: #fff;
+    padding: 0;
+}
+
+hr.hr-3 {
+    border: 0;
+    height: 0;
+    border-top: 1px solid #8c8c8c;
+}
+body {
+    font-family: 'Raleway', sans-serif;
+}
+/* === BASE HEADING === */
+
+h1 {
+    position: relative;
+    padding: 0 0 10px 0;
+    margin: 0;
+    font-family: "Raleway", sans-serif;
+    font-weight: 300;
+    font-size: 40px;
+    color: #080808;
+    -webkit-transition: all 0.4s ease 0s;
+    -o-transition: all 0.4s ease 0s;
+    transition: all 0.4s ease 0s;
+
+}
+
+h1 span {
+    display: block;
+    font-size: 0.5em;
+    line-height: 1.3;
+}
+h1 em {
+    font-style: normal;
+    font-weight: 600;
+}
+
+/* === HEADING STYLE #2 === */
+.two h1 {
+    text-transform: capitalize;
+}
+.two h1:before {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 60px;
+    height: 2px;
+    content: "";
+    background-color: #c50000;
+}
+/*.two h1:before {*/
+/*    content: "";*/
+/*    position: absolute;*/
+/*    left: 0;*/
+/*    bottom: 0;*/
+/*    height: 5px;*/
+/*    width: 55px;*/
+/*    background-color: #111;*/
+/*}*/
+/*.two h1:after {*/
+/*    content: "";*/
+/*    position: absolute;*/
+/*    left: 0;*/
+/*    bottom: 2px;*/
+/*    height: 1px;*/
+/*    width: 95%;*/
+/*    max-width: 255px;*/
+/*    background-color: #333;*/
+/*}*/
+
+
+.two h1 span {
+    font-size: 13px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    line-height: 3em;
+    padding-left: 0.25em;
+    color: rgba(0, 0, 0, 0.4);
+    padding-bottom: 10px;
+}
+.alt-two h1 {
+    text-align:center;
+}
+.alt-two h1:before {
+    left:50%; margin-left:-30px;
+}
+.two span {
+    font-size: 13px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    line-height: 1em;
+    padding-left: 0.25em;
+    color: rgba(0, 0, 0, 0.4);
+    padding-bottom: 10px;
+}
+.two p {
+    font-size: 13px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    line-height: 1em;
+    padding-left: 0.25em;
+    color: rgba(0, 0, 0, 0.4);
+    padding-bottom: 10px;
+    margin-bottom: 0;
+}
+
+
+.custom-btn {
+    width: 130px;
+    height: 40px;
+    color: #fff;
+    border-radius: 5px;
+    padding: 10px 25px;
+    font-family: 'Lato', sans-serif;
+    font-weight: 500;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline-block;
+    box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5),
+    7px 7px 20px 0px rgba(0,0,0,.1),
+    4px 4px 5px 0px rgba(0,0,0,.1);
+    outline: none;
+}
 
 .hero-header{
     height: 450px;
@@ -19,11 +149,21 @@
     margin-bottom: 60px;
     text-align: center;
 }
+.likeButton {
+    padding: 0;
+    margin: 0 0 0 5px;
+    background-color: #ffffff;
+    border: none;
+}
+.likeButton img {
+    width: 20px !important;
+    height: 20px !important;
+}
 
 .product{
     display: block;
     width: 225px;
-    height: 333px;
+    height: 400px;
     text-align: center;
     text-decoration:none;
     color: black;
@@ -31,16 +171,62 @@
     margin-left: 10px;
     margin-right: 10px;
     margin-bottom: 30px;
+    text-decoration-line: none !important;
 }
 .product img {
     width: 225px;
     height: 225px;
     object-fit: contain;
 }
+.product p {
+    margin: 0;
+}
+.product-name {
+    text-align: center;
+}
 
-.product-name{
-    margin-top: 20px;
-    margin-bottom: 4px;
+.product-name .name{
+    color: black;
+    font-weight: 600 !important;
+    font-size: 1em;
+    text-align: center;
+}
+.product-like {
+    text-align: right;
+}
+.info .title span {
+    font-weight: 150;
+    font-size: 1.1em;
+    padding: 0;
+    text-align: center;
+
+}
+
+.origin-price {
+    text-decoration: line-through;
+    color: rgba(0, 0, 0, 0.4) !important;
+}
+.total-price {
+    color: #cb1400 !important;
+}
+.info .title p {
+    font-weight: 600 !important;
+    font-size: 1.2em;
+    padding-bottom: 7px;
+    text-align: center;
+}
+
+.info .data{
+    align-items: center;
+    left: auto;
+    padding: 0;
+}
+.info .tit {
+    width: 120px !important;
+}
+
+.info span, p {
+    color: black;
 }
 
 .clearfix{

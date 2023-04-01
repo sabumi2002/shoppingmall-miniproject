@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
+import java.io.EOFException;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -26,9 +27,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.TextStyle;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
@@ -49,13 +52,17 @@ public class ShopController {
     private CategoryService categoryService;
     private DeliveryService deliveryService;
     private PremiumService premiumService;
+    private CartService cartService;
+    private LikeService likeService;
 
-    public ShopController(UserService userService, ProductService productService, CategoryService categoryService, DeliveryService deliveryService, PremiumService premiumService) {
+    public ShopController(UserService userService, ProductService productService, CategoryService categoryService, DeliveryService deliveryService, PremiumService premiumService, CartService cartService, LikeService likeService) {
         this.productService = productService;
         this.categoryService = categoryService;
         this.deliveryService = deliveryService;
         this.userService = userService;
         this.premiumService = premiumService;
+        this.cartService = cartService;
+        this.likeService = likeService;
     }
 
     @RequestMapping("/showAll")
@@ -63,20 +70,88 @@ public class ShopController {
         UserDTO logIn = (UserDTO) session.getAttribute("logIn");
 
         List<ProductDTO> productList = productService.selectAll();
+        ArrayList<String> originPriceList = new ArrayList<>();
+        ArrayList<String> deliveryDateList = new ArrayList<>();
+        ArrayList<String> totalPriceList = new ArrayList<>();
+        int discount= 0;
+        if(logIn != null) {
+            PremiumDTO loginPremium = premiumService.selectOne(logIn.getRole());
+            discount = loginPremium.getDiscount();
+            model.addAttribute("discount", discount);
+        }
 
-        model.addAttribute("logIn", logIn);
+        for (ProductDTO item : productList){
+            String totalPrice = money(item.getPrice());
+
+            if(logIn != null) {
+
+                totalPrice = money(discount(item.getPrice(), discount));
+                originPriceList.add(money(item.getPrice()));
+
+            }
+            totalPriceList.add(totalPrice);
+            DeliveryDTO deliveryDTO = deliveryService.selectOne(item.getDeliveryId());
+
+            deliveryDateList.add(deleveryDate(deliveryDTO.getPeriod()));
+        }
+
+        if(logIn != null) {
+            model.addAttribute("originPriceList", originPriceList);
+        }
+
+
+
+
+
+        model.addAttribute("totalPriceList", totalPriceList);
+        model.addAttribute("deliveryDateList", deliveryDateList);
         model.addAttribute("productList", productList);
+        model.addAttribute("logIn", logIn);
         return "shop/showAll";
     }
     @RequestMapping("/showByCategory")
-    public String showByCategory(HttpSession session, Model model) {
+    public String showByCategory(HttpSession session, Model model, int id) {
         UserDTO logIn = (UserDTO) session.getAttribute("logIn");
 
-        List<ProductDTO> productList = productService.selectAll();
+        List<ProductDTO> productList = productService.selectAllByCategory(id);
+        ArrayList<String> originPriceList = new ArrayList<>();
+        ArrayList<String> deliveryDateList = new ArrayList<>();
+        ArrayList<String> totalPriceList = new ArrayList<>();
+        int discount= 0;
+        if(logIn != null) {
+            PremiumDTO loginPremium = premiumService.selectOne(logIn.getRole());
+            discount = loginPremium.getDiscount();
+            model.addAttribute("discount", discount);
+        }
 
-        model.addAttribute("logIn", logIn);
+        for (ProductDTO item : productList){
+            String totalPrice = money(item.getPrice());
+
+            if(logIn != null) {
+
+                totalPrice = money(discount(item.getPrice(), discount));
+                originPriceList.add(money(item.getPrice()));
+
+            }
+            totalPriceList.add(totalPrice);
+            DeliveryDTO deliveryDTO = deliveryService.selectOne(item.getDeliveryId());
+
+            deliveryDateList.add(deleveryDate(deliveryDTO.getPeriod()));
+        }
+
+        if(logIn != null) {
+            model.addAttribute("originPriceList", originPriceList);
+        }
+
+
+
+
+
+        model.addAttribute("totalPriceList", totalPriceList);
+        model.addAttribute("deliveryDateList", deliveryDateList);
         model.addAttribute("productList", productList);
-        return "shop/showByCategory";
+        model.addAttribute("logIn", logIn);
+        return "shop/showAll";
     }
 
     @RequestMapping(value="showDetail",method = RequestMethod.GET)
@@ -230,26 +305,122 @@ public class ShopController {
         writer.print(object);
 
     }
-    @PostMapping("/cart")
+    @PostMapping("cart")
     public void cart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PrintWriter writer = response.getWriter();
-        JsonObject object = new JsonObject();
+        JsonObject result = new JsonObject();
         HttpSession session = request.getSession();
 
 
-
-        int productId = Integer.parseInt(request.getParameter("id"));
-        int finalPrice = Integer.parseInt(request.getParameter("finalPrice"));
-        int itemCount = Integer.parseInt(request.getParameter("itemCount"));
-        String deliveryDate = request.getParameter("deliveryDate");
-
+        try {
+            if (session.getAttribute("logIn") == null){
+                throw new NullPointerException();
+            }
 
 
+            UserDTO logIn = (UserDTO) session.getAttribute("logIn");
+
+            int buyId = logIn.getId();
+            int productId = Integer.parseInt(request.getParameter("id"));
+            int finalPrice = Integer.parseInt(request.getParameter("finalPrice"));
+            int itemCount = Integer.parseInt(request.getParameter("itemCount"));
 
 
+            OrderProductDTO cartItem = new OrderProductDTO();
+            cartItem.setBuyerId(buyId);
+            cartItem.setProductId(productId);
+            cartItem.setFinalPrice(finalPrice);
+            cartItem.setCount(itemCount);
+
+
+            if (cartService.selectDup(cartItem)) {
+                throw new IOException();
+            }
+
+
+            cartService.insert(cartItem);
+
+
+            result.addProperty("status", "success");
+        } catch (NullPointerException ne){
+            result.addProperty("status", "loginNull");
+        } catch (Exception e){
+            result.addProperty("status", "fail");
+        }
+
+        writer.print(result);
 
     }
 
+    @PostMapping("like")
+    public void like(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        PrintWriter writer = response.getWriter();
+        JsonObject result = new JsonObject();
+        HttpSession session = request.getSession();
+
+
+        try {
+            if (session.getAttribute("logIn") == null) {
+                throw new Exception();
+            }
+            UserDTO logIn = (UserDTO) session.getAttribute("logIn");
+
+            int productId = Integer.parseInt(request.getParameter("id"));
+
+
+            if (likeService.selectAuth(logIn.getId(), productId) == null){
+                LikeDTO like = new LikeDTO();
+                like.setUserId(logIn.getId());
+                like.setProductId(productId);
+
+
+                likeService.insert(like);
+                result.addProperty("status", "likeOn");
+            }else {
+
+                LikeDTO like = likeService.selectAuth(logIn.getId(), productId);
+                likeService.delete(like.getId());
+                result.addProperty("status", "likeOff");
+            }
+
+        }catch (Exception e){
+            result.addProperty("status", "fail");
+        }
+
+        writer.print(result);
+
+    }
+
+    @PostMapping("likeAll")
+    public void likeAll(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        PrintWriter writer = response.getWriter();
+        JsonObject result = new JsonObject();
+        HttpSession session = request.getSession();
+        try {
+            if (session.getAttribute("logIn") == null) {
+                throw new Exception();
+            }
+            UserDTO logIn = (UserDTO) session.getAttribute("logIn");
+
+            int productId = Integer.parseInt(request.getParameter("id"));
+
+
+            if (likeService.selectAuth(logIn.getId(), productId) == null){
+
+                result.addProperty("status", "likeOff");
+            }else {
+
+
+                result.addProperty("status", "likeOn");
+            }
+
+        }catch (Exception e){
+            result.addProperty("status", "likeOff");
+        }
+
+        writer.print(result);
+
+    }
 
 
 
@@ -260,11 +431,14 @@ public class ShopController {
         return totalPrice;
     }
 
+
     private String deleveryDate(int period){
         SimpleDateFormat sdf = new SimpleDateFormat("(E) MM/yy 도착보장");
 
+
+
         String result = "";
-        LocalDate now = LocalDate.now();
+        LocalDateTime now = LocalDateTime.now();
         now = now.plusDays(period);
 
         int month = now.getMonthValue();

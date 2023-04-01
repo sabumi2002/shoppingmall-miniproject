@@ -67,6 +67,7 @@
                                        aria-haspopup="true" aria-expanded="false">${logIn.nickname}</a>
                                     <div class="dropdown-menu">
                                         <a class="dropdown-item" href="/user/logOut">로그아웃</a>
+                                        <a class="dropdown-item" href="/mypage/showMypage">마이페이지</a>
                                         <a class="dropdown-item" href="/user/updateDelete">개인정보수정</a>
                                         <a class="dropdown-item" href="/address/manager">배송지 관리</a>
                                         <a class="dropdown-item" href="/shop/write">상품 등록</a>
@@ -80,7 +81,7 @@
                         </c:otherwise>
                     </c:choose>
                     <button class="navbar-cart"
-                            onclick="location.href=''">
+                            onclick="location.href='/mypage/showBasket'">
                         <img src="/resources/images/main/shopping_cart.png">
                     </button>
                 </div>
@@ -94,11 +95,11 @@
                         <li class="current">
                             <a href="/shop/showAll">전체</a>
                         </li>
-<%--                        <c:forEach items="${categoryList}" var="item">--%>
-<%--                            <li class="current">--%>
-<%--                                <a href="">${item.category}</a>--%>
-<%--                            </li>--%>
-<%--                        </c:forEach>--%>
+                        <c:forEach items="${categoryList}" var="item">
+                            <li class="current">
+                                <a href="/shop/showAll?id=${item.id}">${item.category}</a>
+                            </li>
+                        </c:forEach>
 
                     </ul>
                 </div>

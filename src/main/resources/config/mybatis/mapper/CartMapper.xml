@@ -4,27 +4,58 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="mapper.CartMapper">
-    <select id="selectOne" parameterType="oderProductDTO" resultType="oderProductDTO">
+    <select id="selectOne" parameterType="int" resultType="orderProductDTO">
         SELECT * FROM `shop`.`cart`
         WHERE id = #{id}
     </select>
 
-    <insert id="insert" parameterType="oderProductDTO">
+    <insert id="insert" parameterType="orderProductDTO">
         INSERT INTO `shop`.`cart` (product_id, buyer_id, count, final_price, delivery_date)
         VALUES( #{productId}, #{buyerId}, #{count}, #{finalPrice}, #{deliveryDate})
     </insert>
-    <select id="selectAll" resultType="oderProductDTO">
-        SELECT * FROM `shop`.`cart`
-    </select>
-    <select id="selectAllByLogin" parameterType="int" resultType="oderProductDTO">
+    <select id="selectAll" parameterType="int" resultType="orderProductDTO">
         SELECT * FROM `shop`.`cart`
         WHERE buyer_id = #{buyerId}
     </select>
-    <update id="update" parameterType="oderProductDTO">
-        UPDATE shop.`cart` SET
+    <select id="selectAllByLogin" parameterType="int" resultType="orderProductDTO">
+        SELECT * FROM `shop`.`cart`
+        WHERE buyer_id = #{buyerId}
+        ORDER BY id DESC
+    </select>
+
+    <select id="selectPayAll" parameterType="int" resultType="orderProductDTO">
+        SELECT * FROM `shop`.`cart`
+        WHERE state = 'buying' and buyer_id = #{buyerId}
+        ORDER BY delivery_date DESC
+    </select>
+
+    <select id="selectDup" parameterType="orderProductDTO" resultType="orderProductDTO">
+        SELECT * FROM `shop`.`cart`
+        WHERE buyer_id = #{buyerId} and product_id = #{productId}
+    </select>
+    <update id="update" parameterType="orderProductDTO">
+        UPDATE `shop`.`cart` SET
+        product_id = #{productId},
+        buyer_id = #{buyerId},
+        count = #{count},
+        final_price = #{finalPrice},
+        delivery_date = #{deliveryDate},
         state = #{state}
         WHERE
         id = #{id}
+    </update>
+    <update id="updateMulti" parameterType="orderProductDTO">
+        <foreach collection="cartList" index="index" item="item" separator=";">
+            UPDATE `shop`.`cart` SET
+            product_id = #{item.productId},
+            buyer_id = #{item.buyerId},
+            count = #{item.count},
+            final_price = #{item.finalPrice},
+            delivery_date = #{item.deliveryDate},
+            state = #{item.state}
+            WHERE
+            id = #{item.id}
+        </foreach>
     </update>
     <delete id="delete" parameterType="int">
         DELETE FROM shop.cart

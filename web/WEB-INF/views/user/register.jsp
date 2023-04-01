@@ -14,6 +14,7 @@
             integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
             crossorigin="anonymous"></script>
 </head>
+<%@include file="../main/header_nav.jsp" %>
 <body>
 <div class="container">
     <div class="row h-100 align-items-center">

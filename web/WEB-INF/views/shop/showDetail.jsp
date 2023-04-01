@@ -19,6 +19,9 @@
     <link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,400i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i"
           rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@1,100&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
     <link rel="stylesheet" href="/resources/css/shop/detail.css">
     <script defer src="/js/shop/detail.js"></script>
     <title>Title</title>
@@ -32,14 +35,24 @@
     <button style="width: 100px; height: 50px" onclick= location.href="/shop/update?id=${productDTO.id}">update</button>
     <div class="product-box">
         <div class="img-box">
-            <img src="/resources/upload/034ac008-397f-445f-9e33-4bd10ff22139_sunglasses.jpg">
+            <img src="${productDTO.img}">
         </div>
         <div class="info-box">
             <div class="two">
-                <span>Brand 브랜드</span>
-                <h1>Style Two 선글라스
+                <span>${productDTO.brand}</span>
+                <h1>${productDTO.title}
                     <%--                    <span>Beom Mall Store</span>--%>
+
                 </h1>
+                <div class="product-like" style="margin-top: 10px">
+                    <div style="" class="like-box text-end d-flex">
+                        <button  class="likeButton text-end" value="${productDTO.id}">
+                            <img class="likeImg" src="/resources/images/product/free-icon-heart-void.png"
+                                 alt="icon_like"/>
+                        </button>
+                    </div>
+                </div>
+
                 <hr class="hr-3">
                 <div class="info">
                     <div class="title">

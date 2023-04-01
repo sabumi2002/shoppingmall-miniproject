@@ -10,7 +10,7 @@
         <security:intercept-url pattern="/resources/**" access="permitAll()"/>
         <security:intercept-url pattern="/" access="permitAll()"/>
         <!--        로그인이 되야 진행-->
-        <!--        <security:intercept-url pattern="/**" access="isAuthenticated()"/>-->
+        <security:intercept-url pattern="/mypage/**" access="isAuthenticated()"/>
         <security:intercept-url pattern="/user/login" access="isAnonymous()"/>
         <security:intercept-url pattern="/user/logOut" access="isAuthenticated()"/>
 

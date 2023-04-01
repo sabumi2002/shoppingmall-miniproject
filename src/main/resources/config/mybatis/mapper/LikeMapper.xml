@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.LikeMapper">
+    <select id="selectOne" parameterType="likeDTO" resultType="likeDTO">
+        SELECT * FROM `shop`.`likelist`
+        WHERE id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="likeDTO">
+        INSERT INTO `shop`.`likelist` (user_id, product_id)
+        VALUES( #{userId}, #{productId})
+    </insert>
+    <select id="selectByAuth" resultType="likeDTO" parameterType="java.util.HashMap">
+        SELECT * FROM `shop`.`likelist`
+        WHERE user_id = #{userId} and product_id = #{productId}
+    </select>
+    <select id="selectAll" parameterType="int" resultType="likeDTO">
+        SELECT * FROM `shop`.`likelist`
+        WHERE user_id = #{userId}
+    </select>
+    <update id="update" parameterType="likeDTO">
+        UPDATE shop.`likelist` SET
+        user_id = #{userId},
+        product_id = #{productId}
+        WHERE
+        id = #{id}
+    </update>
+    <delete id="delete" parameterType="int">
+        DELETE FROM shop.likelist
+        WHERE id= #{id}
+    </delete>
+
+</mapper>

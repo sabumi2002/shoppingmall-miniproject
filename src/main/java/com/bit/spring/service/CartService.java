@@ -1,10 +1,11 @@
 package com.bit.spring.service;
 
-import com.bit.spring.model.OderProductDTO;
+import com.bit.spring.model.OrderProductDTO;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,29 +16,49 @@ public class CartService {
     private SqlSession session;
 
     @Autowired
-    public CartService(SqlSession session){
+    public CartService(SqlSession session) {
         this.session = session;
     }
 
-    public void insert(OderProductDTO attempt){
+    public void insert(OrderProductDTO attempt) {
         session.insert(NAMESPACE + ".insert", attempt);
     }
-    public void update(OderProductDTO attempt){
+
+    public void update(OrderProductDTO attempt) {
         session.update(NAMESPACE + ".update", attempt);
+//        session.commit();
     }
-    public void delete(int id){
+
+    public void delete(int id) {
         session.delete(NAMESPACE + ".delete", id);
     }
-    public OderProductDTO selectOne(int id){
+
+    public OrderProductDTO selectOne(int id) {
         return session.selectOne(NAMESPACE + ".selectOne", id);
     }
-    public List<OderProductDTO> selectAll(){
-        return session.selectList(NAMESPACE + ".selectAll");
+
+    public List<OrderProductDTO> selectAll(int userId) {
+        return session.selectList(NAMESPACE + ".selectAll", userId);
     }
-    public List<OderProductDTO> selectAllByLogin(int loginId){
+
+    public List<OrderProductDTO> selectPayAll(int userId) {
+        return session.selectList(NAMESPACE + ".selectPayAll", userId);
+    }
+
+    public List<OrderProductDTO> selectAllByLogin(int loginId) {
         return session.selectList(NAMESPACE + ".selectAllByLogin", loginId);
     }
-    public int insertMulti(List<OderProductDTO> list) {
+
+    public boolean selectDup(OrderProductDTO item) {
+        OrderProductDTO result = session.selectOne(NAMESPACE + ".selectDup", item);
+        if (result == null) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public int insertMulti(List<OrderProductDTO> list) {
         int count = 0;
         Map<String, Object> map = new HashMap<>();
         map.put("list", list);
@@ -45,6 +66,13 @@ public class CartService {
         // 실행 결과 row 갯수를 리턴
         count += session.insert(".insertMulti", map);
         return count;
+    }
+
+    public int updateMulti(List<OrderProductDTO> cartList) {
+        for (OrderProductDTO o : cartList) {
+            System.out.println(o);
+        }
+        return session.update(".updateMulti", cartList);
     }
 
 

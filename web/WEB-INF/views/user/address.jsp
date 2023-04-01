@@ -24,7 +24,7 @@
 
     <title>update/delete</title>
 </head>
-
+<%@include file="../main/header_nav.jsp" %>
 <body>
 <input id="state" type="hidden" value="${state}">
 

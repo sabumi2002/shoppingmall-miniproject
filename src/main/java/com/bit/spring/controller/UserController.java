@@ -29,7 +29,6 @@ public class UserController {
     @GetMapping("/auth")
     public String auth(HttpSession session, RedirectAttributes redirectAttributes, UserDTO attempt) {
         UserDTO logIn = (UserDTO) session.getAttribute("logIn");
-        System.out.println(logIn);
         if (logIn != null) {
             return "redirect:/";
         } else {

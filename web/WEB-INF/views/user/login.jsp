@@ -24,7 +24,7 @@
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <title>login/register</title>
 </head>
-
+<%@include file="../main/header_nav.jsp" %>
 <body>
 <input type="hidden" id="state" value="${state}">
 <div class="main">

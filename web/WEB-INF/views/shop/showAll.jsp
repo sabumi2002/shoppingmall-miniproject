@@ -19,6 +19,10 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="/resources/css/shop/shop.css">
     <link href="https://fonts.googleapis.com/earlyaccess/notosanskr.css" rel="stylesheet">
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+    <script defer src="/js/shop/showAll.js"></script>
 </head>
 <body>
 <%--<div class="navbar">--%>
@@ -42,111 +46,39 @@
     <h3>Our New Products</h3>
 
     <div class="product-list frame">
-        <c:forEach items="${productList}" var="item">
-            <a href="/shop/showDetail?id=${item.id}" class="product btn-5">
-                <img src="${item.img}">
-                <div class="product-name">
-                        ${item.title}
+        <c:forEach items="${productList}" var="item" varStatus="status">
+            <div class="product btn-5">
+                <a href="/shop/showDetail?id=${item.id}">
+                    <img src="${item.img}">
+                    <div class="product-name">
+                        <span class="name">${item.title}</span>
+                        <div class="info two">
+                            <div class="title">
+                                <c:if test="${discount ne null}">
+                                    <span>${discount}%</span>
+                                    <span class="origin-price">${originPriceList[status.index]}원</span>
+                                </c:if>
+
+                                <p class="total-price">${totalPriceList[status.index]}원</p>
+                            </div>
+                        </div>
+                        <div class="two">
+                            <p>${deliveryDateList[status.index]}</p>
+                        </div>
+                    </div>
+
+                </a>
+                <div class="product-like" style="">
+                    <div style="" class="like-box text-end d-flex">
+                        <button  class="likeButton text-end" value="${item.id}">
+                            <img class="likeImg" src="/resources/images/product/free-icon-heart-void.png"
+                                 alt="icon_like"/>
+                        </button>
+                    </div>
                 </div>
-                <div class="product-price">
-                        ${item.price}
-                </div>
-            </a>
+            </div>
         </c:forEach>
-        <a href="#" class="product btn-5">
-            <img src="https://bakey-api.codeit.kr/files/629/images/sunglasses.jpg" width="225">
-            <div class="product-name">
-                Sunglasses
-            </div>
-            <div class="product-price">
-                49,000
-            </div>
-        </a>
 
-
-        <a href="#" class="product btn-5">
-            <img src="https://bakey-api.codeit.kr/files/629/images/sunglasses.jpg" width="225" height="225px">
-            <div class="product-name">
-                Sunglasses
-            </div>
-            <div class="product-price">
-                49,000
-            </div>
-        </a>
-
-
-        <a href="#" class="product btn-5">
-            <img src="https://bakey-api.codeit.kr/files/629/images/sunglasses.jpg" width="225" height="225px">
-            <div class="product-name">
-                Sunglasses
-            </div>
-            <div class="product-price">
-                49,000
-            </div>
-        </a>
-
-
-        <a href="#" class="product btn-5">
-            <img src="https://bakey-api.codeit.kr/files/629/images/sunglasses.jpg" width="225" height="225px">
-            <div class="product-name">
-                Sunglasses
-            </div>
-            <div class="product-price">
-                49,000
-            </div>
-        </a>
-
-
-        <a href="#" class="product btn-5">
-            <img src="https://bakey-api.codeit.kr/files/629/images/sunglasses.jpg" width="225" height="225px">
-            <div class="product-name">
-                Sunglasses
-            </div>
-            <div class="product-price">
-                49,000
-            </div>
-        </a>
-
-
-        <a href="#" class="product btn-5">
-            <img src="https://bakey-api.codeit.kr/files/629/images/sunglasses.jpg" width="225" height="225px">
-            <div class="product-name">
-                Sunglasses
-            </div>
-            <div class="product-price">
-                49,000
-            </div>
-        </a>
-
-        <a href="#" class="product btn-5">
-            <img src="https://bakey-api.codeit.kr/files/629/images/sunglasses.jpg" width="225" height="225px">
-            <div class="product-name">
-                Sunglasses
-            </div>
-            <div class="product-price">
-                49,000
-            </div>
-        </a>
-
-        <a href="#" class="product btn-5">
-            <img src="https://bakey-api.codeit.kr/files/629/images/sunglasses.jpg" width="225" height="225px">
-            <div class="product-name">
-                Sunglasses
-            </div>
-            <div class="product-price">
-                49,000
-            </div>
-        </a>
-
-        <a href="#" class="product btn-5">
-            <img src="https://bakey-api.codeit.kr/files/629/images/sunglasses.jpg" width="225" height="225px">
-            <div class="product-name">
-                Sunglasses
-            </div>
-            <div class="product-price">
-                49,000
-            </div>
-        </a>
         <div class="clearfix"></div>
     </div>
 

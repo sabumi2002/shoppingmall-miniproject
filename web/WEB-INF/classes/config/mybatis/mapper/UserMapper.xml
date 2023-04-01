@@ -18,6 +18,7 @@
         SELECT * FROM shop.`user`
         WHERE id = #{id}
     </select>
+
     <insert id="register" parameterType="userDTO">
         INSERT INTO shop.user(username, password, nickname, phone_number)
         VALUES(#{username}, #{password}, #{nickname}, #{phoneNumber})
@@ -43,4 +44,6 @@
         DELETE FROM shop.user
         WHERE id= #{id}
     </delete>
+
+
 </mapper>
