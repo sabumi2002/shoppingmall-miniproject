@@ -146,11 +146,11 @@
                     <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
                        aria-haspopup="true" aria-expanded="false">카테고리</a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="/user/logOut">패션</a>
-                        <a class="dropdown-item" href="/mypage/showMypage">it</a>
-                        <a class="dropdown-item" href="/user/updateDelete">식품</a>
-                        <a class="dropdown-item" href="/address/manager">유아</a>
-                        <a class="dropdown-item" href="/shop/write">뷰티</a>
+                        <a class="dropdown-item" href="#">패션</a>
+                        <a class="dropdown-item" href="#">it</a>
+                        <a class="dropdown-item" href="#">식품</a>
+                        <a class="dropdown-item" href="#">유아</a>
+                        <a class="dropdown-item" href="#">뷰티</a>
 
                         <%--                                <a class="dropdown-item" href="#">Something else here</a>--%>
                         <%--                                <div class="dropdown-divider"></div>--%>
@@ -161,17 +161,19 @@
                     <div class="item" style="display: block">
                         <div class="info">
                             <div class="img-box">
-                                <img src="">
+                                <img class="product-img" src="">
                             </div>
                             <div class="data-box">
-                                <p class="tit">선글라스</p>
+                                <span class="brand">브랜드</span>
+                                <span class="title tit">선글라스</span>
                                 <div class="info align-items-center">
-                                    <span style="width: 100%">99,000원</span>
+                                    <span class="price" style="width: 100px">99,000원</span>
+                                    <span class="remaining" style="width: 100%">1 개</span>
                                     <div class='text-end d-flex'>
                                             <%--                                    <div style=""class="like-util-box text-end d-flex">--%>
                                         <button class="likeButton text-end" value=""
                                                 onclick="">
-                                            <img class="likeImg" src="/resources/images/main/shopping_cart.png"
+                                            <img class="likeImg" src="/resources/images/product/changes.png"
                                                  alt="icon_like"/>
                                         </button>
                                         <button onclick="" class="likeButton text-end" value="">

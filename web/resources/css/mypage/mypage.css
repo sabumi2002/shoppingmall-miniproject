@@ -315,6 +315,12 @@ span, p {
 .myStore {
     display: none;
 }
+.myStore .item {
+    margin: 5px;
+    padding: 5px;
+    border: 1px solid #DBDFE5;
+    border-radius: 10px;
+}
 .myStore .category-box {
     margin: 5px;
     padding: 5px;
