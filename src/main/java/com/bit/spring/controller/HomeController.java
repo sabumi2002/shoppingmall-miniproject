@@ -29,6 +29,7 @@ public class HomeController {
 
     @RequestMapping("/")
     public String showIndex(HttpSession session, Model model){
+        System.out.println("여긴 테스트 구역");
 
         return "index";
 //        return "redirect:/mypage/showBasket";
