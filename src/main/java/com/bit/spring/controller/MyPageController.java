@@ -32,8 +32,9 @@ public class MyPageController {
     private PurchaseHistoryService purchaseHistoryService;
     private AddressService addressService;
     private PremiumService premiumService;
+    private LikeService likeService;
 
-    public MyPageController(PremiumService premiumService, AddressService addressService, UserService userService, CartService cartService, PurchaseHistoryService purchaseHistoryService, ProductService productService, DeliveryService deliveryService) {
+    public MyPageController(LikeService likeService, PremiumService premiumService, AddressService addressService, UserService userService, CartService cartService, PurchaseHistoryService purchaseHistoryService, ProductService productService, DeliveryService deliveryService) {
         this.userService = userService;
         this.cartService = cartService;
         this.purchaseHistoryService = purchaseHistoryService;
@@ -41,6 +42,7 @@ public class MyPageController {
         this.deliveryService = deliveryService;
         this.addressService = addressService;
         this.premiumService = premiumService;
+        this.likeService = likeService;
     }
 
     @RequestMapping("/showMypage")
@@ -51,16 +53,30 @@ public class MyPageController {
         ArrayList<String> entryDateList = new ArrayList<>();
         ArrayList<String> deliDateList = new ArrayList<>();
 
-        for(OrderProductDTO h : historyList){
+        for (OrderProductDTO h : historyList) {
             entryDateList.add(entryDate(h.getEntryDate()));
             deliDateList.add(deleveryDate(h.getDeliveryDate()));
         }
 
-
+        
         model.addAttribute("logIn", logIn);
+        // 히스토리
         model.addAttribute("historyList", historyList);
         model.addAttribute("entryDateList", entryDateList);
         model.addAttribute("deliDateList", deliDateList);
+
+        // 좋아요
+        List<LikeDTO> likeList = likeService.selectAll(logIn.getId());
+        ArrayList<ProductDTO> likeProductList =new ArrayList<>();
+        for(LikeDTO like : likeList) {
+            ProductDTO p = productService.selectOne(like.getProductId());
+            likeProductList.add(p);
+        }
+        model.addAttribute("likeList", likeList);
+        model.addAttribute("likeProductList", likeProductList);
+        // 내가등록한상품
+
+        
         return "mypage/mypage";
     }
 
@@ -122,7 +138,6 @@ public class MyPageController {
 
                     LocalDateTime now = LocalDateTime.now();
                     now = now.plusDays(deliveryDTO.getPeriod());
-
 
 
                     cartItem.setDeliveryDate(now);
@@ -262,8 +277,6 @@ public class MyPageController {
         ArrayList<OrderProductDTO> historyList = new ArrayList<>();
 
 
-
-
         try {
 
             for (OrderProductDTO c : cartList) {
@@ -310,7 +323,7 @@ public class MyPageController {
 
         } catch (NullPointerException e) {
             result.addProperty("state", "lack");
-        } catch (Exception e){
+        } catch (Exception e) {
             result.addProperty("state", "fail");
         }
 
@@ -318,12 +331,60 @@ public class MyPageController {
         writer.print(result);
     }
 
+    @PostMapping("mypageCart")
+    public void mypageCart(HttpServletRequest request, HttpServletResponse response, HttpSession session, Model model) throws IOException {
+        PrintWriter writer = response.getWriter();
+        UserDTO logIn = (UserDTO) session.getAttribute("logIn");
+        JsonObject result = new JsonObject();
+
+        int id = Integer.parseInt(request.getParameter("id"));
+
+        try {
+
+            OrderProductDTO cart = purchaseHistoryService.selectOne(id);
+
+            if(cartService.selectDup(cart)) {
+                throw new Exception();
+            }
+
+            cart.setState(null);
+            cartService.insert(cart);
+
+            result.addProperty("state", "success");
+
+        } catch (Exception e) {
+            result.addProperty("state", "fail");
+        }
+
+
+        writer.print(result);
+    }
+
+    @PostMapping("deleteLike")
+    public void deleteLike(HttpServletRequest request, HttpServletResponse response, HttpSession session, Model model) throws IOException {
+        PrintWriter writer = response.getWriter();
+        UserDTO logIn = (UserDTO) session.getAttribute("logIn");
+        JsonObject result = new JsonObject();
 
 
 
+        try {
+            int id = Integer.parseInt(request.getParameter("id"));
+            LikeDTO cart = likeService.selectOne(id);
 
 
 
+            likeService.delete(id);
+
+            result.addProperty("state", "success");
+
+        } catch (Exception e) {
+            result.addProperty("state", "fail");
+        }
+
+
+        writer.print(result);
+    }
 
 
     private String deleveryDate(int period) {
@@ -339,6 +400,7 @@ public class MyPageController {
         result = month + "/" + day + " (" + week + ") " + "도착 보장";
         return result;
     }
+
     private String deleveryDate(LocalDateTime date) {
 
         String result = "";
@@ -350,6 +412,7 @@ public class MyPageController {
         result = month + "/" + day + " (" + week + ") " + "도착";
         return result;
     }
+
     private String entryDate(LocalDateTime date) {
 
         String result = "";
@@ -359,7 +422,7 @@ public class MyPageController {
         int month = date.getMonthValue();
         int day = date.getDayOfMonth();
         String week = date.getDayOfWeek().getDisplayName(TextStyle.SHORT, Locale.KOREA);
-        result = year+". "+month + ". " + day + " 주문";
+        result = year + ". " + month + ". " + day + " 주문";
         return result;
     }
 
